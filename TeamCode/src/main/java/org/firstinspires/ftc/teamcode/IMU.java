@@ -104,7 +104,7 @@ public class IMU {
 
     }
 
-    public double getHeaing(){
+    public double getHeading(){
         return angles.firstAngle;
     }
 
