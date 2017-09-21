@@ -93,11 +93,11 @@ public class Decoder_Example extends LinearOpMode {
         //pixyCam = (PixyCamI2CDevice)hardwareMap.get(I2cDeviceSynch.class , "pixyCam");
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        parameters.loggingEnabled      = true;
-        parameters.loggingTag          = "IMU";
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
         // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
@@ -124,13 +124,15 @@ public class Decoder_Example extends LinearOpMode {
 
             //pixyCam.setLED((byte) 255, (byte) 255, (byte) 255);
 
-            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Status", "Target: " + vuforia.getDecodedColumn());
             telemetry.addData("Status", "Name: " + vuforia.getMark().name());
             telemetry.addData("Status", "Get first angle " + angles.firstAngle);
             telemetry.update();
+        }
+    }
 
 
 
@@ -176,8 +178,7 @@ public class Decoder_Example extends LinearOpMode {
                             }
                         });
 
-            }
-
-        }
-    }
-}
+             //end of compose telemtry
+    //end of while
+    } //end of runopmode()
+} //end of linearopmode
