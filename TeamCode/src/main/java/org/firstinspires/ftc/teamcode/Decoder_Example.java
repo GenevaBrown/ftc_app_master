@@ -131,12 +131,7 @@ public class Decoder_Example extends LinearOpMode {
             telemetry.addData("Status", "Name: " + vuforia.getMark().name());
             telemetry.addData("Status", "Get first angle " + angles.firstAngle);
             telemetry.update();
-        }
-    }
 
-
-
-            void composeTelemetry() {
 
                 // At the beginning of each telemetry update, grab a bunch of data
                 // from the IMU that we will then display in separate lines.
@@ -178,7 +173,14 @@ public class Decoder_Example extends LinearOpMode {
                             }
                         });
 
-             //end of compose telemtry
-    //end of while
-    } //end of runopmode()
+                //end of compose telemtry
+                //end of while
+             //end of runopmode()
+        }
+
+    }
+
+
+
+
 } //end of linearopmode
