@@ -64,7 +64,6 @@ import java.util.Locale;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Basic: Linear OpMode", group="Linear Opmode")
 
 public class Decoder_Example extends LinearOpMode {
 
