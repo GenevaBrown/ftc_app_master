@@ -23,8 +23,15 @@ public class AutoMode extends LinearOpMode {
         return false;
     }
     public int getDecodedMessage() {
+        return 0;
+    }
+    public void turnDegrees() {
 
     }
+    public void driveDistance() {
+
+    }
+
 
     @Override
     public void runOpMode() throws InterruptedException {
