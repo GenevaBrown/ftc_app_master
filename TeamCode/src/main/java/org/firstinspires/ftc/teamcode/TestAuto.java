@@ -16,16 +16,21 @@ public class TestAuto extends AutoMode {
     }*/
     void runAutoMode () {
         telemetry.addData("Encoder Position ", left.getCurrentPosition());
-        telemetry.addData("Encoder Postition ", right.getCurrentPosition());
         telemetry.addData("Encoder Postition ", center.getCurrentPosition());
         telemetry.update();
-        goDistance(10);
 
-        sleep(1000);
+        //int i = 0;
+
+
+           /* telemetry.addData("Position", left.getCurrentPosition());
+            telemetry.update();*/
+        goDistance(10, .1);
+
+
+
         telemetry.addData("Encoder Position ", left.getCurrentPosition());
-        telemetry.addData("Encoder Postition ", right.getCurrentPosition());
         telemetry.addData("Encoder Postition ", center.getCurrentPosition());
         telemetry.update();
-        sleep(5000);
+        //sleep(5000);
     }
 }

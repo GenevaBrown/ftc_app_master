@@ -20,20 +20,35 @@ public class HDriveTeleopPractice extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         waitForStart();
 
-        leftMotor = hardwareMap.dcMotor.get("leftMotor");
-        rightMotor = hardwareMap.dcMotor.get("rightMotor");
-        centerMotor = hardwareMap.dcMotor.get("centerMotor");
+        leftMotor = hardwareMap.dcMotor.get("L");
+        rightMotor = hardwareMap.dcMotor.get("R");
+        centerMotor = hardwareMap.dcMotor.get("C");
 
         telemetry.addData("leftStickPosition ", gamepad1.left_stick_y);
         telemetry.addData("rightStickPosition ", gamepad1.right_stick_y);
         telemetry.addData("leftTriggerPosition ", gamepad1.left_trigger);
         while (opModeIsActive()) {
 
-            if (gamepad1.left_stick_y > .05) {
+            if (Math.abs(gamepad1.left_stick_y) > .01) {
                 leftMotor.setPower(-gamepad1.left_stick_y);
             }
-            if (gamepad1.right_stick_y > .05) {
-                rightMotor.setPower(gamepad1.right_stick_y);
+            else {
+                leftMotor.setPower(0);
+            }
+            if (Math.abs(gamepad1.right_stick_y) > .01) {
+                rightMotor.setPower(-gamepad1.right_stick_y);
+            }
+            else {
+                rightMotor.setPower(0);
+            }
+            if (gamepad1.left_trigger > .05) {
+                centerMotor.setPower(gamepad1.left_trigger);
+            }
+            else if (gamepad1.right_trigger > .05) {
+                centerMotor.setPower(-gamepad1.right_trigger);
+            }
+            else {
+                centerMotor.setPower(0);
             }
 
 

@@ -52,31 +52,33 @@ public abstract class AutoMode extends LinearOpMode {
         right.setPower(0);
     }
 
-    public void goDistance (double targetDistance) {
-        targetDistance = (targetDistance/(4*Math.PI) * 1120) / 2;
-        double startPositionLt = left.getCurrentPosition();
-        double startPositionC = center.getCurrentPosition();
+    public void goDistance (double distanceToGo, double power) {
 
-        double currentPositionLt = Math.abs(left.getCurrentPosition());
-        double currentPositionC = center.getCurrentPosition();
-        double error = targetDistance - currentPositionLt - startPositionLt;
-
-        while(Math.abs(error) > .5 && opModeIsActive()) {
-            currentPositionLt = Math.abs(left.getCurrentPosition());
-            error = targetDistance - currentPositionLt - startPositionLt;
-            left.setPower(error * 0.008);
-            right.setPower(error * -0.008);
-            telemetry.addData("Position: ", currentPositionLt);
-            telemetry.addData("Error: ", error);
-            telemetry.update();
+        if(distanceToGo < 0) {
+            power = -power;
+            distanceToGo = Math.abs(distanceToGo);
         }
-        /*left.setPower(.7);
-        right.setPower(-.7);
-        sleep(2000);
-        left.setPower(0);
-        right.setPower(0);*/
-    }
 
+        int startPositionLt = left.getCurrentPosition();
+        int targetPosition = ((int) ((distanceToGo / (4 * Math.PI) * 1120))) + startPositionLt;
+
+        double currentPositionLt = left.getCurrentPosition();
+
+        while (Math.abs(currentPositionLt - startPositionLt) < Math.abs(distanceToGo) && opModeIsActive()) {
+            left.setPower(power);
+            right.setPower(power);
+            telemetry.addData("Current pos: ", currentPositionLt);
+            telemetry.addData("target pos: ", targetPosition);
+            telemetry.addData("error pos: ", Math.abs(targetPosition - currentPositionLt));
+            telemetry.update();
+            currentPositionLt = left.getCurrentPosition();
+        }
+        left.setPower(0);
+        right.setPower(0);
+        sleep(50);
+        //again power if doesn't work
+    }
+    //right encoder make sure equal, downgrade power if going to fast
 
 
     @Override
