@@ -60,11 +60,12 @@ public abstract class AutoMode extends LinearOpMode {
         }
 
         int startPositionLt = left.getCurrentPosition();
-        int targetPosition = ((int) ((distanceToGo / (4 * Math.PI) * 1120))) + startPositionLt;
+        int targetPosition = ((int) ((distanceToGo / (4 * Math.PI) * 1120))/2) + startPositionLt;
 
         double currentPositionLt = left.getCurrentPosition();
 
-        while (Math.abs(currentPositionLt - startPositionLt) < Math.abs(distanceToGo) && opModeIsActive()) {
+
+        while ((Math.abs(currentPositionLt - startPositionLt) < Math.abs(targetPosition)) && opModeIsActive()) {
             left.setPower(power);
             right.setPower(power);
             telemetry.addData("Current pos: ", currentPositionLt);

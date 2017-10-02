@@ -24,7 +24,7 @@ public class TestAuto extends AutoMode {
 
            /* telemetry.addData("Position", left.getCurrentPosition());
             telemetry.update();*/
-        goDistance(10, .1);
+        goDistance(10, .5);
 
 
 
