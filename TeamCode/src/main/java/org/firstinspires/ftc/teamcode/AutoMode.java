@@ -54,23 +54,26 @@ public abstract class AutoMode extends LinearOpMode {
 
     public void goDistance (double distanceToGo, double power) {
 
+
+        int startPositionLt = 0;
+
         if(distanceToGo < 0) {
             power = -power;
             distanceToGo = Math.abs(distanceToGo);
         }
 
-        int startPositionLt = left.getCurrentPosition();
-        int targetPosition = ((int) ((distanceToGo / (4 * Math.PI) * 1120))/2) + startPositionLt;
+        startPositionLt = left.getCurrentPosition();
+        int targetDistance = ((int) ((distanceToGo / (4 * Math.PI) * 1120))/2);
 
         double currentPositionLt = left.getCurrentPosition();
 
 
-        while ((Math.abs(currentPositionLt - startPositionLt) < Math.abs(targetPosition)) && opModeIsActive()) {
+        while ((Math.abs(currentPositionLt - startPositionLt) < Math.abs(targetDistance)) && opModeIsActive()) {
             left.setPower(power);
             right.setPower(power);
             telemetry.addData("Current pos: ", currentPositionLt);
-            telemetry.addData("target pos: ", targetPosition);
-            telemetry.addData("error pos: ", Math.abs(targetPosition - currentPositionLt));
+            telemetry.addData("target pos: ", targetDistance);
+            telemetry.addData("error pos: ", Math.abs(targetDistance - currentPositionLt));
             telemetry.update();
             currentPositionLt = left.getCurrentPosition();
         }
@@ -90,10 +93,12 @@ public abstract class AutoMode extends LinearOpMode {
 
         left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         center.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
         left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
         center = hardwareMap.dcMotor.get("C");
         colorSensor = hardwareMap.colorSensor.get("Color");

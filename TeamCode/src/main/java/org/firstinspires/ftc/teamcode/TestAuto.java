@@ -15,8 +15,9 @@ public class TestAuto extends AutoMode {
         turnToHeading(180);
     }*/
     void runAutoMode () {
-        telemetry.addData("Encoder Position ", left.getCurrentPosition());
-        telemetry.addData("Encoder Postition ", center.getCurrentPosition());
+        telemetry.addData("Encoder Position L ", left.getCurrentPosition());
+        telemetry.addData("Encoder Postition C ", center.getCurrentPosition());
+        telemetry.addData("Encoder Position Rt ", right.getCurrentPosition());
         telemetry.update();
 
         //int i = 0;
@@ -24,12 +25,15 @@ public class TestAuto extends AutoMode {
 
            /* telemetry.addData("Position", left.getCurrentPosition());
             telemetry.update();*/
-        goDistance(10, .5);
+        goDistance(15, .5);
+        turnToHeading(90);
 
 
 
-        telemetry.addData("Encoder Position ", left.getCurrentPosition());
-        telemetry.addData("Encoder Postition ", center.getCurrentPosition());
+
+        telemetry.addData("Encoder Position Lt ", left.getCurrentPosition());
+        telemetry.addData("Encoder Postition C ", center.getCurrentPosition());
+        telemetry.addData("Encoder Postition Rt ", right.getCurrentPosition());
         telemetry.update();
         //sleep(5000);
     }
