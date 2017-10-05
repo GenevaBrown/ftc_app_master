@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * Created by HP 15t-as100 on 9/22/2017.
@@ -13,7 +14,8 @@ public class HDriveTeleopPractice extends LinearOpMode {
     DcMotor leftMotor;
     DcMotor rightMotor;
     DcMotor centerMotor;
-
+    Servo servoCollectorLt;
+    Servo servoCollectorRt;
 
 
     @Override
@@ -23,10 +25,16 @@ public class HDriveTeleopPractice extends LinearOpMode {
         leftMotor = hardwareMap.dcMotor.get("L");
         rightMotor = hardwareMap.dcMotor.get("R");
         centerMotor = hardwareMap.dcMotor.get("C");
+        servoCollectorLt = hardwareMap.servo.get("LtCollector");
+        servoCollectorRt = hardwareMap.servo.get("RtCollector");
 
         telemetry.addData("leftStickPosition ", gamepad1.left_stick_y);
         telemetry.addData("rightStickPosition ", gamepad1.right_stick_y);
         telemetry.addData("leftTriggerPosition ", gamepad1.left_trigger);
+
+        double servoInitPositionLt = servoCollectorLt.getPosition();
+        double servoInitPositionRt = servoCollectorRt.getPosition();
+
         while (opModeIsActive()) {
 
             if (Math.abs(gamepad1.left_stick_y) > .01) {
@@ -49,6 +57,14 @@ public class HDriveTeleopPractice extends LinearOpMode {
             }
             else {
                 centerMotor.setPower(0);
+            }
+            if (gamepad1.right_bumper) {
+                servoCollectorLt.setPosition(servoInitPositionLt + 1);
+                servoCollectorRt.setPosition(servoInitPositionRt - 1);
+            }
+            if (gamepad1.left_bumper) {
+                servoCollectorLt.setPosition(servoInitPositionLt - 1);
+                servoCollectorRt.setPosition(servoInitPositionRt );
             }
 
 

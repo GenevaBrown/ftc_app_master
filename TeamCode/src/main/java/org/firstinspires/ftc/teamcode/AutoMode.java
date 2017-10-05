@@ -8,7 +8,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
-import com.qualcomm.robotcore.hardware.NormalizedRGBA;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.I2cAddr;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public abstract class AutoMode extends LinearOpMode {
 
@@ -18,7 +20,9 @@ public abstract class AutoMode extends LinearOpMode {
     DcMotor center;
     ColorSensor colorSensor;
     IMU IMU;
-    public boolean isJewelRed() {
+    Servo servoCollectorLt;
+    Servo servoCollectorRt;
+    public  boolean isJewelRed() {
         if (colorSensor.red() > colorSensor.blue()) {
             return true;
         }
@@ -56,6 +60,7 @@ public abstract class AutoMode extends LinearOpMode {
 
 
         int startPositionLt = 0;
+        int startPositionRt = 0;
 
         if(distanceToGo < 0) {
             power = -power;
@@ -63,20 +68,40 @@ public abstract class AutoMode extends LinearOpMode {
         }
 
         startPositionLt = left.getCurrentPosition();
+        startPositionRt = right.getCurrentPosition();
         int targetDistance = ((int) ((distanceToGo / (4 * Math.PI) * 1120))/2);
 
         double currentPositionLt = left.getCurrentPosition();
-
+        double currentPositionRt = right.getCurrentPosition();
 
         while ((Math.abs(currentPositionLt - startPositionLt) < Math.abs(targetDistance)) && opModeIsActive()) {
             left.setPower(power);
             right.setPower(power);
-            telemetry.addData("Current pos: ", currentPositionLt);
+            telemetry.addData("Current pos L: ", currentPositionLt);
+            telemetry.addData("target pos L: ", targetDistance);
+            telemetry.addData("error pos: L", Math.abs(targetDistance - currentPositionLt));
+            telemetry.update();
+            telemetry.addData("Current pos: ", currentPositionRt);
             telemetry.addData("target pos: ", targetDistance);
-            telemetry.addData("error pos: ", Math.abs(targetDistance - currentPositionLt));
+            telemetry.addData("error pos: ", Math.abs(targetDistance - currentPositionRt));
             telemetry.update();
             currentPositionLt = left.getCurrentPosition();
+            currentPositionRt = right.getCurrentPosition();
+
+            if (currentPositionLt > currentPositionRt) {
+                left.setPower(power * .9);
+                right.setPower(power);
+            } else if (currentPositionRt > currentPositionLt) {
+                left.setPower(power);
+                right.setPower(power * .9);
+            }
+            else {
+                left.setPower(power);
+                right.setPower(power);
+            }
+
         }
+
         left.setPower(0);
         right.setPower(0);
         sleep(50);
@@ -91,6 +116,9 @@ public abstract class AutoMode extends LinearOpMode {
         right = hardwareMap.dcMotor.get("R");
         center = hardwareMap.dcMotor.get("C");
 
+        servoCollectorLt = hardwareMap.servo.get("LtCollector");
+        servoCollectorRt = hardwareMap.servo.get("RtCollector");
+
         left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         center.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -101,7 +129,8 @@ public abstract class AutoMode extends LinearOpMode {
 
 
         center = hardwareMap.dcMotor.get("C");
-        colorSensor = hardwareMap.colorSensor.get("Color");
+        colorSensor = hardwareMap.get(ColorSensor.class, "Color");
+        colorSensor.setI2cAddress(I2cAddr.create7bit(0x39));
         IMU = new IMU();
 
         IMU.setup(hardwareMap);
