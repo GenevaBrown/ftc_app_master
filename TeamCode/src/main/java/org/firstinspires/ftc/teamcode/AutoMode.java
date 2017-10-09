@@ -22,6 +22,7 @@ public abstract class AutoMode extends LinearOpMode {
     IMU IMU;
     Servo servoCollectorLt;
     Servo servoCollectorRt;
+    Servo jewelSwiper;
     public  boolean isJewelRed() {
         if (colorSensor.red() > colorSensor.blue()) {
             return true;
@@ -107,6 +108,30 @@ public abstract class AutoMode extends LinearOpMode {
         sleep(50);
         //again power if doesn't work
     }
+    public void goDistanceCenter (double distanceToGoC, double power) {
+        int startPositionC = 0;
+
+        if (distanceToGoC < 0) {
+            power = -power;
+            distanceToGoC = Math.abs(distanceToGoC);
+        }
+        startPositionC = center.getCurrentPosition();
+        int targetDistance = ((int) ((distanceToGoC / (4 * Math.PI) * 1120))/2);
+
+        double currentPositionC = center.getCurrentPosition();
+
+        while ((Math.abs(currentPositionC - startPositionC) < Math.abs(targetDistance)) && opModeIsActive()) {
+            center.setPower(power);
+            telemetry.addData("Current pos C: ", currentPositionC);
+            telemetry.addData("target pos C: ", targetDistance);
+            telemetry.addData("error pos: C", Math.abs(targetDistance - currentPositionC));
+            telemetry.update();
+
+            currentPositionC = center.getCurrentPosition();
+        }
+            center.setPower(0);
+            sleep(50);
+        }
     //right encoder make sure equal, downgrade power if going to fast
 
 
@@ -132,6 +157,7 @@ public abstract class AutoMode extends LinearOpMode {
         colorSensor = hardwareMap.get(ColorSensor.class, "Color");
         colorSensor.setI2cAddress(I2cAddr.create7bit(0x39));
         IMU = new IMU();
+        jewelSwiper = hardwareMap.servo.get("jewelSwiper");
 
         IMU.setup(hardwareMap);
 

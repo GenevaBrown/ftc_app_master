@@ -16,6 +16,7 @@ public class HDriveTeleopPractice extends LinearOpMode {
     DcMotor centerMotor;
     Servo servoCollectorLt;
     Servo servoCollectorRt;
+    Servo jewelSwiper;
 
 
     @Override
@@ -27,6 +28,7 @@ public class HDriveTeleopPractice extends LinearOpMode {
         centerMotor = hardwareMap.dcMotor.get("C");
         servoCollectorLt = hardwareMap.servo.get("LtCollector");
         servoCollectorRt = hardwareMap.servo.get("RtCollector");
+        jewelSwiper = hardwareMap.servo.get("jewelSwiper");
 
         telemetry.addData("leftStickPosition ", gamepad1.left_stick_y);
         telemetry.addData("rightStickPosition ", gamepad1.right_stick_y);
@@ -35,7 +37,11 @@ public class HDriveTeleopPractice extends LinearOpMode {
         double servoInitPositionLt = servoCollectorLt.getPosition();
         double servoInitPositionRt = servoCollectorRt.getPosition();
 
+
         while (opModeIsActive()) {
+            telemetry.addData("Jewel Swiper Pos: ", jewelSwiper.getPosition());
+            telemetry.update();
+            double jewelSwiperCurrentPos = jewelSwiper.getPosition();
 
             if (Math.abs(gamepad1.left_stick_y) > .01) {
                 leftMotor.setPower(-gamepad1.left_stick_y);
@@ -66,6 +72,19 @@ public class HDriveTeleopPractice extends LinearOpMode {
                 servoCollectorLt.setPosition(servoInitPositionLt - 1);
                 servoCollectorRt.setPosition(servoInitPositionRt );
             }
+            if (gamepad1.dpad_up) {
+                jewelSwiper.setPosition(jewelSwiperCurrentPos + .1);
+            }
+            else{
+                jewelSwiper.setPosition(jewelSwiperCurrentPos);
+            }
+            if (gamepad1.dpad_down) {
+                jewelSwiper.setPosition(jewelSwiperCurrentPos - .1);
+            }
+            else{
+                jewelSwiper.setPosition(jewelSwiperCurrentPos);
+            }
+            jewelSwiperCurrentPos = jewelSwiper.getPosition();
 
 
 
