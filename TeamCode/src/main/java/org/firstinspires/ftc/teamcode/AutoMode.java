@@ -19,12 +19,19 @@ public abstract class AutoMode extends LinearOpMode {
     DcMotor right;
     DcMotor center;
     ColorSensor colorSensor;
+    ColorSensor blueLineSensor;
     IMU IMU;
     Servo servoCollectorLt;
     Servo servoCollectorRt;
     Servo jewelSwiper;
     public  boolean isJewelRed() {
         if (colorSensor.red() > colorSensor.blue()) {
+            return true;
+        }
+        return false;
+    }
+    public  boolean isLineBlue() {
+        if (colorSensor.blue() > colorSensor.red() && colorSensor.blue() > colorSensor.green() && colorSensor.blue() > colorSensor.alpha()) {
             return true;
         }
         return false;
@@ -156,6 +163,8 @@ public abstract class AutoMode extends LinearOpMode {
         center = hardwareMap.dcMotor.get("C");
         colorSensor = hardwareMap.get(ColorSensor.class, "Color");
         colorSensor.setI2cAddress(I2cAddr.create7bit(0x39));
+        blueLineSensor = hardwareMap.get(ColorSensor.class, "blueLineSensor");
+        blueLineSensor.setI2cAddress(I2cAddr.create7bit(0x24));
         IMU = new IMU();
         jewelSwiper = hardwareMap.servo.get("jewelSwiper");
 

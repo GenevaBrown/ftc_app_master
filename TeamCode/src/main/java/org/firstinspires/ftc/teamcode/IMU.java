@@ -108,6 +108,11 @@ public class IMU {
         update();
         return angles.firstAngle;
     }
+    public double getPitch() {
+
+        update();
+        return angles.thirdAngle;
+    }
 
 
 

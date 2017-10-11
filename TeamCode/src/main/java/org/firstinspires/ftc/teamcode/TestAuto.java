@@ -22,24 +22,47 @@ public class TestAuto extends AutoMode {
         telemetry.update();
         //int i = 0;
         jewelSwiper.setPosition(0);
-
+        //double IMUInitPitch = IMU.getPitch();
 
         while (opModeIsActive()) {
             double jewelSwiperCurrentPos = jewelSwiper.getPosition();
+            //double IMUpitch = IMU.getPitch();
            /* telemetry.addData("Position", left.getCurrentPosition());
             telemetry.update();*/
             jewelSwiper.setPosition(1);
 
-            sleep(2000);
+            sleep(1500);
 
             if (isJewelRed() == true) {
-                goDistanceCenter(3, -.5);
-                break;
+                goDistanceCenter(4, -.5);
+                sleep(5000);
+                jewelSwiper.setPosition(0);
+                sleep (2000);
+                goDistance(25, -.7);
+                sleep(5000);
+                goDistanceCenter(30, -1);
+                sleep(1000);
+                if (isLineBlue() == false) {
+                    center.setPower(.8);
+                } else if (isLineBlue() == true){
+                    break;
+                }
+
             } else if (isJewelRed() == false) {
-                goDistanceCenter(3, .5);
-                break;
+                goDistanceCenter(4, .5);
+                sleep(5000);
+                jewelSwiper.setPosition(0);
+                sleep(2000);
+                goDistance(25, -.7);
+                sleep(5000);
+                goDistanceCenter(35, -1);
+                sleep (1000);
+                if (isLineBlue() == false) {
+                    center.setPower(.8);
+                } else if (isLineBlue() == true){
+                    break;
+                }
             }
-            jewelSwiper.setPosition(0);
             jewelSwiperCurrentPos = jewelSwiper.getPosition();
         }
 
