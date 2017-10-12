@@ -34,32 +34,36 @@ public class TestAuto extends AutoMode {
             sleep(1500);
 
             if (isJewelRed() == true) {
-                goDistanceCenter(4, -.5);
-                sleep(5000);
+                goDistanceCenter(8, -.5);
+                sleep(2000);
                 jewelSwiper.setPosition(0);
                 sleep (2000);
                 goDistance(25, -.7);
-                sleep(5000);
+                sleep(2000);
+                jewelSwiper.setPosition(0);
                 goDistanceCenter(30, -1);
-                sleep(1000);
+                sleep(2000);
                 if (isLineBlue() == false) {
                     center.setPower(.8);
                 } else if (isLineBlue() == true){
+                    goDistance(3, -.7);
                     break;
                 }
 
             } else if (isJewelRed() == false) {
-                goDistanceCenter(4, .5);
-                sleep(5000);
+                goDistanceCenter(8, .5);
+                sleep(2000);
                 jewelSwiper.setPosition(0);
                 sleep(2000);
                 goDistance(25, -.7);
-                sleep(5000);
+                sleep(2000);
+                jewelSwiper.setPosition(0);
                 goDistanceCenter(35, -1);
                 sleep (1000);
                 if (isLineBlue() == false) {
                     center.setPower(.8);
                 } else if (isLineBlue() == true){
+                    goDistance(3, -.7);
                     break;
                 }
             }
