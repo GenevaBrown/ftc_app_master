@@ -30,6 +30,7 @@ public abstract class AutoMode extends LinearOpMode {
         }
         return false;
     }
+
     public  boolean isLineBlue() {
         if (colorSensor.blue() > colorSensor.red() && colorSensor.blue() > colorSensor.green() && colorSensor.blue() > colorSensor.alpha()) {
             return true;
@@ -176,6 +177,7 @@ public abstract class AutoMode extends LinearOpMode {
 
         runAutoMode();
     }
+
 
     abstract void runAutoMode();
 

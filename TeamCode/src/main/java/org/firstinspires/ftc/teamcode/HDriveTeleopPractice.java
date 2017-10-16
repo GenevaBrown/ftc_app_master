@@ -17,12 +17,16 @@ public class HDriveTeleopPractice extends LinearOpMode {
     Servo servoCollectorLt;
     Servo servoCollectorRt;
     Servo jewelSwiper;
+    Servo lHDrive;
+    Servo rHDrive;
 
+    double dropHeight = 0.43;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        waitForStart();
 
+        lHDrive = hardwareMap.servo.get("LH");
+        rHDrive = hardwareMap.servo.get("RH");
         leftMotor = hardwareMap.dcMotor.get("L");
         rightMotor = hardwareMap.dcMotor.get("R");
         centerMotor = hardwareMap.dcMotor.get("C");
@@ -37,14 +41,16 @@ public class HDriveTeleopPractice extends LinearOpMode {
         double servoInitPositionLt = servoCollectorLt.getPosition();
         double servoInitPositionRt = servoCollectorRt.getPosition();
 
-
+        lHDrive.setPosition(0.5);
+        rHDrive.setPosition(0.5);
+        waitForStart();
         while (opModeIsActive()) {
             telemetry.addData("Jewel Swiper Pos: ", jewelSwiper.getPosition());
             telemetry.update();
             double jewelSwiperCurrentPos = jewelSwiper.getPosition();
 
             if (Math.abs(gamepad1.left_stick_y) > .01) {
-                leftMotor.setPower(-gamepad1.left_stick_y);
+                leftMotor.setPower(gamepad1.left_stick_y);
             }
             else {
                 leftMotor.setPower(0);
@@ -56,13 +62,20 @@ public class HDriveTeleopPractice extends LinearOpMode {
                 rightMotor.setPower(0);
             }
             if (gamepad1.left_trigger > .05) {
-                centerMotor.setPower(gamepad1.left_trigger);
+                centerMotor.setPower(-gamepad1.left_trigger);
+                rHDrive.setPosition(0.5 + dropHeight);
+                lHDrive.setPosition(0.5 - dropHeight);
             }
             else if (gamepad1.right_trigger > .05) {
-                centerMotor.setPower(-gamepad1.right_trigger);
+                centerMotor.setPower(gamepad1.right_trigger);
+                rHDrive.setPosition(0.5 + dropHeight);
+                lHDrive.setPosition(0.5 - dropHeight);
             }
             else {
                 centerMotor.setPower(0);
+                lHDrive.setPosition(0.5);
+                rHDrive.setPosition(0.5);
+
             }
             if (gamepad1.right_bumper) {
                 servoCollectorLt.setPosition(servoInitPositionLt + 1);
