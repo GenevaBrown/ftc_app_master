@@ -29,6 +29,7 @@ package org.firstinspires.ftc.teamcode;/* Copyright (c) 2017 FIRST. All rights r
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -47,6 +48,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 public class Decoder {
 
+
     VuforiaTrackables relicTrackables = null;
     VuforiaTrackable relicTemplate = null;
 
@@ -61,7 +63,7 @@ public class Decoder {
 
         parameters.vuforiaLicenseKey = key;
 
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
         this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
 
         relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
@@ -69,12 +71,12 @@ public class Decoder {
         relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
     }
 
-    public RelicRecoveryVuMark getMark() {
+    public  RelicRecoveryVuMark getMark() {
         return RelicRecoveryVuMark.from(relicTemplate);
     }
 
     public int getDecodedColumn() {
-        RelicRecoveryVuMark vuMark =  getMark();
+        RelicRecoveryVuMark vuMark = getMark();
         switch (vuMark) {
             case UNKNOWN:
                 return -1;
@@ -88,7 +90,10 @@ public class Decoder {
         return -1;
     }
 
+
+
     public void start() {
         relicTrackables.activate();
     }
+
 }

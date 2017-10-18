@@ -23,51 +23,56 @@ public class TestAuto extends AutoMode {
         //int i = 0;
         jewelSwiper.setPosition(0);
         //double IMUInitPitch = IMU.getPitch();
+        lHDrive.setPosition(0.5);
+        rHDrive.setPosition(0.5);
 
         while (opModeIsActive()) {
             double jewelSwiperCurrentPos = jewelSwiper.getPosition();
             //double IMUpitch = IMU.getPitch();
            /* telemetry.addData("Position", left.getCurrentPosition());
             telemetry.update();*/
-            jewelSwiper.setPosition(1);
+            jewelSwiper.setPosition(0);
+           // if (getDecodedColumn)
 
             sleep(1500);
 
             if (isJewelRed() == true) {
-                goDistanceCenter(15, -.5);
+                goDistanceCenter(3, -.4);
+                sleep(1000);
+                jewelSwiper.setPosition(1);
+                sleep (1000);
+                goDistance(15, .7, true);
                 sleep(2000);
-                jewelSwiper.setPosition(0);
-                sleep (2000);
-                goDistance(25, -.7);
-                sleep(2000);
-                jewelSwiper.setPosition(0);
                 goDistanceCenter(60, -1);
                 sleep(2000);
-                if (isLineBlue() == false) {
+                goDistance(10, -.6, true);
+                /*if (isLineBlue() == false) {
                     goDistanceCenter(50, .7);
                     left.setPower(-.5);
                     right.setPower(-.5);
                 } else if (isLineBlue() == true){
-                    break;
-                }
+                    left.setPower(0);
+                    right.setPower(0);
+                    center.setPower(0);
+                }*/
 
             } else if (isJewelRed() == false) {
-                goDistanceCenter(15, .5);
+                goDistanceCenter(4, .5);
+                sleep(1000);
+                jewelSwiper.setPosition(1);
+                sleep(1000);
+                goDistance(15, .7, true);
                 sleep(2000);
-                jewelSwiper.setPosition(0);
-                sleep(2000);
-                goDistance(25, -.7);
-                sleep(2000);
-                jewelSwiper.setPosition(0);
                 goDistanceCenter(65, -1);
                 sleep (1000);
-                if (isLineBlue() == false) {
+                goDistance(10, -.6, true);
+                /*if (isLineBlue() == false) {
                     goDistanceCenter(50, .7);
                     left.setPower(-.5);
                     right.setPower(-.5);
                 } else if (isLineBlue() == true) {
                     break;
-                }
+                }*/
             }
             jewelSwiperCurrentPos = jewelSwiper.getPosition();
         }

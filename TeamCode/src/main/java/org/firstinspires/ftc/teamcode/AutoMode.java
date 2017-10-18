@@ -9,8 +9,17 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+
+import static android.R.attr.key;
 
 public abstract class AutoMode extends LinearOpMode {
 
@@ -24,6 +33,14 @@ public abstract class AutoMode extends LinearOpMode {
     Servo servoCollectorLt;
     Servo servoCollectorRt;
     Servo jewelSwiper;
+    Servo lHDrive;
+    Servo rHDrive;
+
+    double dropHeight = 0.43;
+
+
+    private Decoder vuforia;
+
     public  boolean isJewelRed() {
         if (colorSensor.red() > colorSensor.blue()) {
             return true;
@@ -65,11 +82,16 @@ public abstract class AutoMode extends LinearOpMode {
         right.setPower(0);
     }
 
-    public void goDistance (double distanceToGo, double power) {
+    public void goDistance (double distanceToGo, double power, boolean liftCWheel) {
 
 
         int startPositionLt = 0;
         int startPositionRt = 0;
+
+        if(liftCWheel == true) {
+            lHDrive.setPosition(0.5);
+            rHDrive.setPosition(0.5);
+        }
 
         if(distanceToGo < 0) {
             power = -power;
@@ -118,7 +140,8 @@ public abstract class AutoMode extends LinearOpMode {
     }
     public void goDistanceCenter (double distanceToGoC, double power) {
         int startPositionC = 0;
-
+        rHDrive.setPosition(0.5 + dropHeight);
+        lHDrive.setPosition(0.5 - dropHeight);
         if (distanceToGoC < 0) {
             power = -power;
             distanceToGoC = Math.abs(distanceToGoC);
@@ -140,8 +163,12 @@ public abstract class AutoMode extends LinearOpMode {
             center.setPower(0);
             sleep(50);
         }
-    //right encoder make sure equal, downgrade power if going to fast
-
+    public int Vuphoria () {
+        vuforia = new Decoder(hardwareMap, "AYx3Kw3/////AAAAGQreNEJhLkdWqUbBsQ06dnWIksoccLxh/R9WNkXB8hvuonWmFXUWJ2tYqM+8VqYCWXkHfanXzG/G1un7ZvwgGkkO6u0ktevZDb8AFWF2/Y4wVH1BWGQ2psV5QkHAKZ7Z6ThZI01HPZqixiQowyeUstv7W/QU8jJ48NrqGBLVYdE6eFfzNDzVY/1IvrBJaRwqKR8vo+3a2zmeFEnEhFTqMI7anU2WSPy8RP7tR61CdfidjL2biMe0RiSOBIbqOe4rs9NGaDvp1Crtz17uyY71GyMkp+Kmjbejyfj8LgZ/dZQoEsuVuQyo0dbd4KBxsEJlQj/uAEst22QoEwZe0Af4DnFtwn6/IEe02L3DT3/Np+ZX");
+        RelicRecoveryVuMark vuMark = vuforia.getMark();
+        vuforia.start();
+        return vuforia.getDecodedColumn();
+    }
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -162,6 +189,8 @@ public abstract class AutoMode extends LinearOpMode {
 
 
         center = hardwareMap.dcMotor.get("C");
+        lHDrive = hardwareMap.servo.get("LH");
+        rHDrive = hardwareMap.servo.get("RH");
         colorSensor = hardwareMap.get(ColorSensor.class, "Color");
         colorSensor.setI2cAddress(I2cAddr.create7bit(0x39));
         blueLineSensor = hardwareMap.get(ColorSensor.class, "blueLineSensor");

@@ -43,6 +43,7 @@ public class HDriveTeleopPractice extends LinearOpMode {
 
         lHDrive.setPosition(0.5);
         rHDrive.setPosition(0.5);
+        jewelSwiper.setPosition(1);
         waitForStart();
         while (opModeIsActive()) {
             telemetry.addData("Jewel Swiper Pos: ", jewelSwiper.getPosition());
@@ -83,7 +84,7 @@ public class HDriveTeleopPractice extends LinearOpMode {
             }
             if (gamepad1.left_bumper) {
                 servoCollectorLt.setPosition(servoInitPositionLt - 1);
-                servoCollectorRt.setPosition(servoInitPositionRt );
+                servoCollectorRt.setPosition(servoInitPositionRt + 1);
             }
             if (gamepad1.dpad_up) {
                 jewelSwiper.setPosition(jewelSwiperCurrentPos + .1);
