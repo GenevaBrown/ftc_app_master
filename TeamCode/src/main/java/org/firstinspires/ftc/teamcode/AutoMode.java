@@ -39,7 +39,7 @@ public abstract class AutoMode extends LinearOpMode {
     double dropHeight = 0.43;
 
 
-    private Decoder vuforia;
+    public Decoder vuforia;
 
     public  boolean isJewelRed() {
         if (colorSensor.red() > colorSensor.blue()) {
@@ -164,7 +164,7 @@ public abstract class AutoMode extends LinearOpMode {
             center.setPower(0);
             sleep(50);
         }
-    public int Vuphoria () {
+    public int Vuforia () {
         vuforia = new Decoder(hardwareMap, "AYx3Kw3/////AAAAGQreNEJhLkdWqUbBsQ06dnWIksoccLxh/R9WNkXB8hvuonWmFXUWJ2tYqM+8VqYCWXkHfanXzG/G1un7ZvwgGkkO6u0ktevZDb8AFWF2/Y4wVH1BWGQ2psV5QkHAKZ7Z6ThZI01HPZqixiQowyeUstv7W/QU8jJ48NrqGBLVYdE6eFfzNDzVY/1IvrBJaRwqKR8vo+3a2zmeFEnEhFTqMI7anU2WSPy8RP7tR61CdfidjL2biMe0RiSOBIbqOe4rs9NGaDvp1Crtz17uyY71GyMkp+Kmjbejyfj8LgZ/dZQoEsuVuQyo0dbd4KBxsEJlQj/uAEst22QoEwZe0Af4DnFtwn6/IEe02L3DT3/Np+ZX");
         RelicRecoveryVuMark vuMark = vuforia.getMark();
         vuforia.start();

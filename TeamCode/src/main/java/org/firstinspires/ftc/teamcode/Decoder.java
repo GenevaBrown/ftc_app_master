@@ -95,5 +95,6 @@ public class Decoder {
     public void start() {
         relicTrackables.activate();
     }
+    public void stop () {relicTrackables.deactivate();}
 
 }
