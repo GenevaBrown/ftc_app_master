@@ -91,6 +91,7 @@ public abstract class AutoMode extends LinearOpMode {
         if(liftCWheel == true) {
             lHDrive.setPosition(0.5);
             rHDrive.setPosition(0.5);
+            sleep (500);
         }
 
         if(distanceToGo < 0) {

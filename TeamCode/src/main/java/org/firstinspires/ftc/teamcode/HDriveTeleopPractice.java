@@ -87,13 +87,10 @@ public class HDriveTeleopPractice extends LinearOpMode {
                 servoCollectorRt.setPosition(servoInitPositionRt + 1);
             }
             if (gamepad1.dpad_up) {
-                jewelSwiper.setPosition(jewelSwiperCurrentPos + .1);
+                jewelSwiper.setPosition(1);
             }
-            else{
-                jewelSwiper.setPosition(jewelSwiperCurrentPos);
-            }
-            if (gamepad1.dpad_down) {
-                jewelSwiper.setPosition(jewelSwiperCurrentPos - .1);
+            else if (gamepad1.dpad_down) {
+                jewelSwiper.setPosition(.55);
             }
             else{
                 jewelSwiper.setPosition(jewelSwiperCurrentPos);

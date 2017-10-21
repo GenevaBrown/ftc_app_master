@@ -31,13 +31,13 @@ public class TestAuto extends AutoMode {
             //double IMUpitch = IMU.getPitch();
            /* telemetry.addData("Position", left.getCurrentPosition());
             telemetry.update();*/
-            jewelSwiper.setPosition(0);
+            jewelSwiper.setPosition(.5);
            // if (getDecodedColumn)
 
             sleep(1500);
 
             if (isJewelRed() == true) {
-                goDistanceCenter(3, -.4);
+                goDistanceCenter(2.5, -.35);
                 sleep(1000);
                 jewelSwiper.setPosition(1);
                 sleep (1000);
@@ -57,7 +57,7 @@ public class TestAuto extends AutoMode {
                 }*/
 
             } else if (isJewelRed() == false) {
-                goDistanceCenter(4, .5);
+                goDistanceCenter(2.5, .35);
                 sleep(1000);
                 jewelSwiper.setPosition(1);
                 sleep(1000);
