@@ -36,7 +36,7 @@ public class BackUpAutoRedLt extends AutoMode {
 
             sleep(1500);
 
-            if (isJewelRed() == true) {
+            if (isJewelRed() == false) {
                     goDistanceCenter(2, -.3);
                     sleep(1000);
                     jewelSwiper.setPosition(1);
@@ -58,7 +58,7 @@ public class BackUpAutoRedLt extends AutoMode {
                     center.setPower(0);
                 }*/
 
-            } else if (isJewelRed() == false) {
+            } else if (isJewelRed() == true) {
                 goDistanceCenter(2, .3);
                 sleep(1000);
                 jewelSwiper.setPosition(1);

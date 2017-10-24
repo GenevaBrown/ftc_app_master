@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -19,9 +20,10 @@ public class HDriveTeleopPractice extends LinearOpMode {
     Servo jewelSwiper;
     Servo lHDrive;
     Servo rHDrive;
-    Servo omnipulatorRt;
-    Servo omnipulatorLt;
+    CRServo omnipulatorRt;
+    CRServo omnipulatorLt;
     Servo omniPusher;
+    DcMotor omnipulatorLift;
     double dropHeight = 0.43;
 
     @Override
@@ -35,9 +37,10 @@ public class HDriveTeleopPractice extends LinearOpMode {
         servoCollectorLt = hardwareMap.servo.get("LtCollector");
         servoCollectorRt = hardwareMap.servo.get("RtCollector");
         jewelSwiper = hardwareMap.servo.get("jewelSwiper");
-        omnipulatorRt = hardwareMap.servo.get("omnipulatorRt");
-        omnipulatorLt = hardwareMap.servo.get("omnipulatorLt");
+        omnipulatorRt = hardwareMap.crservo.get("omnipulatorRt");
+        omnipulatorLt = hardwareMap.crservo.get("omnipulatorLt");
         omniPusher = hardwareMap.servo.get("pusher");
+        omnipulatorLift = hardwareMap.dcMotor.get("Lift");
 
         telemetry.addData("leftStickPosition ", gamepad1.left_stick_y);
         telemetry.addData("rightStickPosition ", gamepad1.right_stick_y);
@@ -54,17 +57,35 @@ public class HDriveTeleopPractice extends LinearOpMode {
             telemetry.addData("Jewel Swiper Pos: ", jewelSwiper.getPosition());
             telemetry.update();
             double jewelSwiperCurrentPos = jewelSwiper.getPosition();
-            double omnipulatorLtCurrentPos = omnipulatorLt.getPosition();
-            double omnipulatorRtCurrentPos = omnipulatorRt.getPosition();
+            double omnipulatorLtCurrentPos = omnipulatorLt.getPower();
+            double omnipulatorRtCurrentPos = omnipulatorRt.getPower();
             double pusherCurrentPos = omniPusher.getPosition();
             if (Math.abs(gamepad1.left_stick_y) > .01) {
                 leftMotor.setPower(gamepad1.left_stick_y);
             }
+            /*if (Math.abs(gamepad1.left_stick_y) > .01 && Math.abs(gamepad1.left_stick_y) < .5) {
+                leftMotor.setPower(gamepad1.left_stick_y / 2);
+            }
+            if (Math.abs(gamepad1.left_stick_y) >= .5 && Math.abs(gamepad1.left_stick_y) < .7) {
+                leftMotor.setPower(gamepad1.left_stick_y / 1.25);
+            }
+            if (Math.abs(gamepad1.left_stick_y) >= .7) {
+                leftMotor.setPower(gamepad1.left_stick_y);
+            }*/
             else {
                 leftMotor.setPower(0);
             }
-            if (Math.abs(gamepad1.right_stick_y) > .01) {
+            /*if (Math.abs(gamepad1.right_stick_y) > .01 && Math.abs(gamepad1.right_stick_y) < .5) {
+                rightMotor.setPower(-gamepad1.right_stick_y / 2);
+            }
+            if (Math.abs(gamepad1.right_stick_y) >= .5 && Math.abs(gamepad1.right_stick_y) < .7) {
+                rightMotor.setPower(-gamepad1.right_stick_y / 1.25);
+            }
+            if (Math.abs(gamepad1.right_stick_y) >= .7) {
                 rightMotor.setPower(-gamepad1.right_stick_y);
+            }*/
+            if (Math.abs(gamepad1.right_stick_y) > .01) {
+                rightMotor.setPower(gamepad1.right_stick_y);
             }
             else {
                 rightMotor.setPower(0);
@@ -86,15 +107,21 @@ public class HDriveTeleopPractice extends LinearOpMode {
 
             }
             if (gamepad2.right_trigger > .05) {
-                omnipulatorLt.setPosition(omnipulatorLtCurrentPos - .1);
-                omnipulatorRt.setPosition(omnipulatorRtCurrentPos + .1);
+                omnipulatorLt.setPower(omnipulatorLtCurrentPos - .1);
+                omnipulatorRt.setPower(omnipulatorRtCurrentPos + .1);
             }
             if (gamepad2.left_trigger > .05) {
-                omnipulatorLt.setPosition(omnipulatorLtCurrentPos + .1);
-                omnipulatorRt.setPosition(omnipulatorRtCurrentPos - .1);
+                omnipulatorLt.setPower(omnipulatorLtCurrentPos + .1);
+                omnipulatorRt.setPower(omnipulatorRtCurrentPos - .1);
+            }
+            if (gamepad2.y) {
+                omniPusher.setPosition(pusherCurrentPos + .1);
             }
             if (gamepad2.dpad_up) {
-                omniPusher.setPosition(pusherCurrentPos + .1);
+                omnipulatorLift.setPower(.7);
+            }
+            if (gamepad2.dpad_down) {
+                omnipulatorLift.setPower(-.7);
             }
             if (gamepad2.right_bumper) {
                 servoCollectorLt.setPosition(servoInitPositionLt + 1);
