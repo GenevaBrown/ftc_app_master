@@ -60,6 +60,8 @@ public class HDriveTeleopPractice extends LinearOpMode {
             double omnipulatorLtCurrentPos = omnipulatorLt.getPower();
             double omnipulatorRtCurrentPos = omnipulatorRt.getPower();
             double pusherCurrentPos = omniPusher.getPosition();
+            double servoCurrentPosLt = servoCollectorLt.getPosition();
+            double servoCurrentPosRt = servoCollectorRt.getPosition();
             if (Math.abs(gamepad1.left_stick_y) > .01) {
                 leftMotor.setPower(gamepad1.left_stick_y);
             }
@@ -85,7 +87,7 @@ public class HDriveTeleopPractice extends LinearOpMode {
                 rightMotor.setPower(-gamepad1.right_stick_y);
             }*/
             if (Math.abs(gamepad1.right_stick_y) > .01) {
-                rightMotor.setPower(gamepad1.right_stick_y);
+                rightMotor.setPower(-gamepad1.right_stick_y);
             }
             else {
                 rightMotor.setPower(0);
@@ -107,30 +109,44 @@ public class HDriveTeleopPractice extends LinearOpMode {
 
             }
             if (gamepad2.right_trigger > .05) {
-                omnipulatorLt.setPower(omnipulatorLtCurrentPos - .1);
-                omnipulatorRt.setPower(omnipulatorRtCurrentPos + .1);
+                omnipulatorLt.setPower(-.7);
+                omnipulatorRt.setPower(.7);
             }
-            if (gamepad2.left_trigger > .05) {
-                omnipulatorLt.setPower(omnipulatorLtCurrentPos + .1);
-                omnipulatorRt.setPower(omnipulatorRtCurrentPos - .1);
+            else if (gamepad2.left_trigger > .05) {
+                omnipulatorLt.setPower(.7);
+                omnipulatorRt.setPower(-.7);
+            }
+            else {
+                omnipulatorLt.setPower(0);
+                omnipulatorRt.setPower(0);
             }
             if (gamepad2.y) {
-                omniPusher.setPosition(pusherCurrentPos + .1);
+                omniPusher.setPosition(1);
+            }
+            else {
+                omniPusher.setPosition(0);
             }
             if (gamepad2.dpad_up) {
                 omnipulatorLift.setPower(.7);
             }
-            if (gamepad2.dpad_down) {
+            else if (gamepad2.dpad_down) {
                 omnipulatorLift.setPower(-.7);
             }
+            else {
+                omnipulatorLift.setPower(0);
+            }
             if (gamepad2.right_bumper) {
-                servoCollectorLt.setPosition(servoInitPositionLt + 1);
-                servoCollectorRt.setPosition(servoInitPositionRt - 1);
+                servoCollectorLt.setPosition(servoInitPositionLt + .5);
+                servoCollectorRt.setPosition(servoInitPositionRt - .5);
             }
-            if (gamepad2.left_bumper) {
-                servoCollectorLt.setPosition(servoInitPositionLt - 1);
-                servoCollectorRt.setPosition(servoInitPositionRt + 1);
+            else if (gamepad2.left_bumper) {
+                servoCollectorLt.setPosition(servoInitPositionLt - .5);
+                servoCollectorRt.setPosition(servoInitPositionRt + .5);
+            } else {
+                servoCollectorLt.setPosition(0.5);
+                servoCollectorRt.setPosition(0.5);
             }
+
             if (gamepad1.dpad_up) {
                 jewelSwiper.setPosition(1);
             }

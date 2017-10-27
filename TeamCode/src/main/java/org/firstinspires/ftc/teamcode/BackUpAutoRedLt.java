@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 /**
  * Created by HP 15t-as100 on 9/25/2017.
  */
-@Autonomous (name = "MiniAutoRedLt", group = "12596")
+@Autonomous (name = "MiniAutoBlueRt", group = "12596")
 public class BackUpAutoRedLt extends AutoMode {
 
     @Override
@@ -16,6 +16,7 @@ public class BackUpAutoRedLt extends AutoMode {
     }*/
     void runAutoMode () {
         double initJewelSwiperPos = jewelSwiper.getPosition();
+        int glyphPosition = -1;
         telemetry.addData("Encoder Position L ", left.getCurrentPosition());
         telemetry.addData("Encoder Postition C ", center.getCurrentPosition());
         telemetry.addData("Encoder Position Rt ", right.getCurrentPosition());
@@ -36,52 +37,21 @@ public class BackUpAutoRedLt extends AutoMode {
 
             sleep(1500);
 
-            if (isJewelRed() == false) {
-                    goDistanceCenter(2, -.3);
-                    sleep(1000);
-                    jewelSwiper.setPosition(1);
-                    sleep (1000);
-                    goDistance(15, .7, true);
-                    sleep(1000);
-                    goDistanceCenter(60, 1);
-                    sleep(1000);
-                    goDistance(10, -.6, true);
-
-
-                /*if (isLineBlue() == false) {
-                    goDistanceCenter(50, .7);
-                    left.setPower(-.5);
-                    right.setPower(-.5);
-                } else if (isLineBlue() == true){
-                    left.setPower(0);
-                    right.setPower(0);
-                    center.setPower(0);
-                }*/
-
-            } else if (isJewelRed() == true) {
-                goDistanceCenter(2, .3);
+            if (isJewelRed() == true) {
+                goDistanceCenter(2.5, -.35);
                 sleep(1000);
                 jewelSwiper.setPosition(1);
                 sleep(1000);
-                goDistance(15, .7, true);
-                sleep(1000);
-                goDistanceCenter(65, 1);
+                goDistanceCenter(70, 1);
+
+            } else if (isJewelRed() == false) {
+                goDistanceCenter(10, .9);
+                jewelSwiper.setPosition(1);
                 sleep (1000);
-                goDistance(10, -.6, true);
-
-
-                /*if (isLineBlue() == false) {
-                    goDistanceCenter(50, .7);
-                    left.setPower(-.5);
-                    right.setPower(-.5);
-                } else if (isLineBlue() == true) {
-                    break;
-                }*/
+                goDistanceCenter(50, 1);
             }
             jewelSwiperCurrentPos = jewelSwiper.getPosition();
         }
-
-
 
 
         telemetry.addData("Encoder Position Lt ", left.getCurrentPosition());

@@ -38,51 +38,20 @@ public class BackUpAutoBlueRt extends AutoMode {
             sleep(1500);
 
             if (isJewelRed() == true) {
-                    goDistanceCenter(2.5, -.35);
-                    sleep(1000);
-                    jewelSwiper.setPosition(1);
-                    sleep (1000);
-                    goDistance(15, .7, true);
-                    sleep(2000);
-                    goDistanceCenter(60, -1);
-                    sleep(2000);
-                    goDistance(10, -.6, true);
-
-
-                /*if (isLineBlue() == false) {
-                    goDistanceCenter(50, .7);
-                    left.setPower(-.5);
-                    right.setPower(-.5);
-                } else if (isLineBlue() == true){
-                    left.setPower(0);
-                    right.setPower(0);
-                    center.setPower(0);
-                }*/
+                goDistanceCenter(10, -.9);
+                jewelSwiper.setPosition(1);
+                sleep (1000);
+                goDistanceCenter(50, -1);
 
             } else if (isJewelRed() == false) {
                 goDistanceCenter(2.5, .35);
                 sleep(1000);
                 jewelSwiper.setPosition(1);
                 sleep(1000);
-                goDistance(15, .7, true);
-                sleep(2000);
-                goDistanceCenter(65, -1);
-                sleep (1000);
-                goDistance(10, -.6, true);
-
-
-                /*if (isLineBlue() == false) {
-                    goDistanceCenter(50, .7);
-                    left.setPower(-.5);
-                    right.setPower(-.5);
-                } else if (isLineBlue() == true) {
-                    break;
-                }*/
+                goDistanceCenter(70, -1);
             }
             jewelSwiperCurrentPos = jewelSwiper.getPosition();
         }
-
-
 
 
         telemetry.addData("Encoder Position Lt ", left.getCurrentPosition());
