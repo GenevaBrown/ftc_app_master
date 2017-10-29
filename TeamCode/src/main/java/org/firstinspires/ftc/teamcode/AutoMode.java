@@ -62,16 +62,16 @@ public abstract class AutoMode extends LinearOpMode {
         return (((o + 180)) % 360) - 180;
     }
 
-    public void turnToHeading(double targetHeading) {
-        double currentHeading = IMU.getHeading();
-        double error = getTurnError(targetHeading, currentHeading);
+    public void turnToPitch (double targetPitch) {
+        double currentPitch = IMU.getPitch();
+        double error = getTurnError(targetPitch, currentPitch);
 
         while(Math.abs(error) > .5 && opModeIsActive()) {
-            currentHeading = IMU.getHeading();
-            error = -getTurnError(targetHeading, currentHeading);
-            left.setPower(error * 0.008);
-            right.setPower(error * 0.008);
-            telemetry.addData("Degree: ", currentHeading);
+            currentPitch = IMU.getHeading();
+            error = -getTurnError(targetPitch, currentPitch);
+            left.setPower(error * 0.001);
+            right.setPower(error * 0.001);
+            telemetry.addData("Degree: ", currentPitch);
             telemetry.addData("Error: ", error);
             telemetry.update();
         }
@@ -107,8 +107,7 @@ public abstract class AutoMode extends LinearOpMode {
         double currentPositionRt = right.getCurrentPosition();
 
         while ((Math.abs(currentPositionLt - startPositionLt) < Math.abs(targetDistance)) && opModeIsActive()) {
-            left.setPower(power);
-            right.setPower(power);
+
             telemetry.addData("Current pos L: ", currentPositionLt);
             telemetry.addData("target pos L: ", targetDistance);
             telemetry.addData("error pos: L", Math.abs(targetDistance - currentPositionLt));
@@ -121,14 +120,14 @@ public abstract class AutoMode extends LinearOpMode {
             currentPositionRt = right.getCurrentPosition();
 
             if (currentPositionLt > currentPositionRt) {
-                left.setPower(power * .9);
+                left.setPower(-power * .9);
                 right.setPower(power);
             } else if (currentPositionRt > currentPositionLt) {
-                left.setPower(power);
+                left.setPower(-power);
                 right.setPower(power * .9);
             }
             else {
-                left.setPower(power);
+                left.setPower(-power);
                 right.setPower(power);
             }
 

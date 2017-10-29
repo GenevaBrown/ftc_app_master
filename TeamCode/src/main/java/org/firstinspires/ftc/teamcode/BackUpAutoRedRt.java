@@ -26,33 +26,32 @@ public class BackUpAutoRedRt extends AutoMode {
         //double IMUInitPitch = IMU.getPitch();
         lHDrive.setPosition(0.5);
         rHDrive.setPosition(0.5);
+        colorSensor.enableLed(false);
 
-        while (opModeIsActive()) {
             double jewelSwiperCurrentPos = jewelSwiper.getPosition();
             //double IMUpitch = IMU.getPitch();
            /* telemetry.addData("Position", left.getCurrentPosition());
             telemetry.update();*/
-            jewelSwiper.setPosition(.5);
+            jewelSwiper.setPosition(.53);
            // if (getDecodedColumn)
 
             sleep(1500);
 
             if (isJewelRed() == true) {
-                goDistanceCenter(2.5, -.35);
-                sleep(500);
+                goDistanceCenter(45, .95);
                 jewelSwiper.setPosition(1);
                 sleep(1000);
-                goDistanceCenter(70, 1);
-                sleep (1000);
-                goDistance(10, .6, true);
+                goDistance(20, .9, true);
+                goDistanceCenter(40, .7);
+                stop();
 
-            } else if (isJewelRed() == false) {
-                goDistanceCenter(10, .9);
+            } else {
+                goDistanceCenter(15, -.85);
                 jewelSwiper.setPosition(1);
-                goDistanceCenter(40, .85);
-                sleep (1000);
-                goDistance(10, .7, true);
+                sleep(1000);
+                goDistance(45, .7, true);
 
+                stop();
 
                 /*if (isLineBlue() == false) {
                     goDistanceCenter(50, .7);
@@ -61,7 +60,7 @@ public class BackUpAutoRedRt extends AutoMode {
                 } else if (isLineBlue() == true) {
                     break;
                 }*/
-            }
+
             jewelSwiperCurrentPos = jewelSwiper.getPosition();
         }
 

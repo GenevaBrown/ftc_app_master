@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
 /**
@@ -24,6 +25,7 @@ public class HDriveTeleopPractice extends LinearOpMode {
     CRServo omnipulatorLt;
     Servo omniPusher;
     DcMotor omnipulatorLift;
+    DigitalChannel liftStop;
     double dropHeight = 0.43;
 
     @Override
@@ -41,6 +43,9 @@ public class HDriveTeleopPractice extends LinearOpMode {
         omnipulatorLt = hardwareMap.crservo.get("omnipulatorLt");
         omniPusher = hardwareMap.servo.get("pusher");
         omnipulatorLift = hardwareMap.dcMotor.get("Lift");
+        liftStop = hardwareMap.digitalChannel.get("liftStop");
+        liftStop.setMode(DigitalChannel.Mode.INPUT);
+        centerMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         telemetry.addData("leftStickPosition ", gamepad1.left_stick_y);
         telemetry.addData("rightStickPosition ", gamepad1.right_stick_y);
@@ -55,6 +60,7 @@ public class HDriveTeleopPractice extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()) {
             telemetry.addData("Jewel Swiper Pos: ", jewelSwiper.getPosition());
+            telemetry.addData("liftStopPos: ", liftStop.getState());
             telemetry.update();
             double jewelSwiperCurrentPos = jewelSwiper.getPosition();
             double omnipulatorLtCurrentPos = omnipulatorLt.getPower();
@@ -129,7 +135,7 @@ public class HDriveTeleopPractice extends LinearOpMode {
             if (gamepad2.dpad_up) {
                 omnipulatorLift.setPower(.7);
             }
-            else if (gamepad2.dpad_down) {
+            else if (gamepad2.dpad_down && liftStop.getState()) {
                 omnipulatorLift.setPower(-.7);
             }
             else {

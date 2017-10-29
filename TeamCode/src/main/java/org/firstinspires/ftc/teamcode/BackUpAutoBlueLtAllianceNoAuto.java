@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 /**
  * Created by HP 15t-as100 on 9/25/2017.
  */
-@Autonomous (name = "AutoBlueLt", group = "12596")
-public class BackUpAutoBlueLt extends AutoMode {
+@Autonomous (name = "AutoBlueLtAllianceNoAuto", group = "12596")
+public class BackUpAutoBlueLtAllianceNoAuto extends AutoMode {
 
     @Override
 
@@ -49,8 +49,9 @@ public class BackUpAutoBlueLt extends AutoMode {
                 goDistanceCenter(15, .85);
                 jewelSwiper.setPosition(1);
                 sleep(1000);
-                goDistance(45, .7, true);
-
+                goDistance(20, .9, true);
+                goDistanceCenter(7, .7);
+                goDistance(15, -.7, true);
                 stop();
 
                 /*if (isLineBlue() == false) {

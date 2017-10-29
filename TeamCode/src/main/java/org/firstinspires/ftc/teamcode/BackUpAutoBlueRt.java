@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 /**
  * Created by HP 15t-as100 on 9/25/2017.
  */
-@Autonomous (name = "MiniAutoBlueRt", group = "12596")
+@Autonomous (name = "AutoBlueRt", group = "12596")
 public class BackUpAutoBlueRt extends AutoMode {
 
     @Override
@@ -41,14 +41,17 @@ public class BackUpAutoBlueRt extends AutoMode {
                 goDistanceCenter(10, -.9);
                 jewelSwiper.setPosition(1);
                 sleep (1000);
-                goDistanceCenter(50, -1);
+                goDistance(15, .9, true);
+                goDistanceCenter(20, -.7);
+                goDistance(10, -.7, true);
 
             } else if (isJewelRed() == false) {
-                goDistanceCenter(2.5, .35);
-                sleep(1000);
+                goDistanceCenter(7, .9);
                 jewelSwiper.setPosition(1);
                 sleep(1000);
-                goDistanceCenter(70, -1);
+                goDistance(20, .9, true);
+                goDistanceCenter(25, -.7);
+                goDistance(12, -.7, true);
             }
             jewelSwiperCurrentPos = jewelSwiper.getPosition();
         }
