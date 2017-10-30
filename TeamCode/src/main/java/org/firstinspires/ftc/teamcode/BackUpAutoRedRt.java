@@ -49,8 +49,8 @@ public class BackUpAutoRedRt extends AutoMode {
                 goDistanceCenter(15, -.85);
                 jewelSwiper.setPosition(1);
                 sleep(1000);
-                goDistance(45, .7, true);
-
+                goDistance(25, .7, true);
+                goDistanceCenter(50, .7);
                 stop();
 
                 /*if (isLineBlue() == false) {

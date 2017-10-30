@@ -46,6 +46,9 @@ public class HDriveTeleopPractice extends LinearOpMode {
         liftStop = hardwareMap.digitalChannel.get("liftStop");
         liftStop.setMode(DigitalChannel.Mode.INPUT);
         centerMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
         telemetry.addData("leftStickPosition ", gamepad1.left_stick_y);
         telemetry.addData("rightStickPosition ", gamepad1.right_stick_y);
@@ -57,7 +60,9 @@ public class HDriveTeleopPractice extends LinearOpMode {
         lHDrive.setPosition(0.5);
         rHDrive.setPosition(0.5);
         jewelSwiper.setPosition(1);
+
         waitForStart();
+
         while (opModeIsActive()) {
             telemetry.addData("Jewel Swiper Pos: ", jewelSwiper.getPosition());
             telemetry.addData("liftStopPos: ", liftStop.getState());
@@ -66,9 +71,11 @@ public class HDriveTeleopPractice extends LinearOpMode {
             double omnipulatorLtCurrentPos = omnipulatorLt.getPower();
             double omnipulatorRtCurrentPos = omnipulatorRt.getPower();
             double pusherCurrentPos = omniPusher.getPosition();
-            double servoCurrentPosLt = servoCollectorLt.getPosition();
-            double servoCurrentPosRt = servoCollectorRt.getPosition();
+            //double servoCurrentPosLt = servoCollectorLt.getPosition();
+            //double servoCurrentPosRt = servoCollectorRt.getPosition();
             if (Math.abs(gamepad1.left_stick_y) > .01) {
+                lHDrive.setPosition(0.5);
+                rHDrive.setPosition(0.5);
                 leftMotor.setPower(gamepad1.left_stick_y);
             }
             /*if (Math.abs(gamepad1.left_stick_y) > .01 && Math.abs(gamepad1.left_stick_y) < .5) {
@@ -93,25 +100,27 @@ public class HDriveTeleopPractice extends LinearOpMode {
                 rightMotor.setPower(-gamepad1.right_stick_y);
             }*/
             if (Math.abs(gamepad1.right_stick_y) > .01) {
+                lHDrive.setPosition(0.5);
+                rHDrive.setPosition(0.5);
                 rightMotor.setPower(-gamepad1.right_stick_y);
             }
             else {
                 rightMotor.setPower(0);
             }
             if (gamepad1.left_trigger > .05) {
-                centerMotor.setPower(-gamepad1.left_trigger);
                 rHDrive.setPosition(0.5 + dropHeight);
                 lHDrive.setPosition(0.5 - dropHeight);
+                centerMotor.setPower(-gamepad1.left_trigger);
             }
             else if (gamepad1.right_trigger > .05) {
-                centerMotor.setPower(gamepad1.right_trigger);
                 rHDrive.setPosition(0.5 + dropHeight);
                 lHDrive.setPosition(0.5 - dropHeight);
+                centerMotor.setPower(gamepad1.right_trigger);
             }
             else {
                 centerMotor.setPower(0);
-                lHDrive.setPosition(0.5);
-                rHDrive.setPosition(0.5);
+                //lHDrive.setPosition(0.5);
+                //rHDrive.setPosition(0.5);
 
             }
             if (gamepad2.right_trigger > .05) {
