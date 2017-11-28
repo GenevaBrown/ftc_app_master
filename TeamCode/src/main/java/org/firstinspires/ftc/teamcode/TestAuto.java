@@ -9,8 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 public class TestAuto extends AutoMode {
 
     @Override
-
-
+            
  /*   void runAutoMode() {
         turnToHeading(180);
     }*/

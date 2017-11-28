@@ -203,7 +203,6 @@ public abstract class AutoMode extends LinearOpMode {
         waitForStart();
 
         IMU.start();
-
         runAutoMode();
     }
 

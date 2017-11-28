@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
 /**
@@ -25,7 +24,6 @@ public class HDriveTeleopPractice extends LinearOpMode {
     CRServo omnipulatorLt;
     Servo omniPusher;
     DcMotor omnipulatorLift;
-    DigitalChannel liftStop;
     double dropHeight = 0.43;
 
     @Override
@@ -43,12 +41,6 @@ public class HDriveTeleopPractice extends LinearOpMode {
         omnipulatorLt = hardwareMap.crservo.get("omnipulatorLt");
         omniPusher = hardwareMap.servo.get("pusher");
         omnipulatorLift = hardwareMap.dcMotor.get("Lift");
-        liftStop = hardwareMap.digitalChannel.get("liftStop");
-        liftStop.setMode(DigitalChannel.Mode.INPUT);
-        centerMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
 
         telemetry.addData("leftStickPosition ", gamepad1.left_stick_y);
         telemetry.addData("rightStickPosition ", gamepad1.right_stick_y);
@@ -60,22 +52,15 @@ public class HDriveTeleopPractice extends LinearOpMode {
         lHDrive.setPosition(0.5);
         rHDrive.setPosition(0.5);
         jewelSwiper.setPosition(1);
-
         waitForStart();
-
         while (opModeIsActive()) {
             telemetry.addData("Jewel Swiper Pos: ", jewelSwiper.getPosition());
-            telemetry.addData("liftStopPos: ", liftStop.getState());
             telemetry.update();
             double jewelSwiperCurrentPos = jewelSwiper.getPosition();
             double omnipulatorLtCurrentPos = omnipulatorLt.getPower();
             double omnipulatorRtCurrentPos = omnipulatorRt.getPower();
             double pusherCurrentPos = omniPusher.getPosition();
-            //double servoCurrentPosLt = servoCollectorLt.getPosition();
-            //double servoCurrentPosRt = servoCollectorRt.getPosition();
             if (Math.abs(gamepad1.left_stick_y) > .01) {
-                lHDrive.setPosition(0.5);
-                rHDrive.setPosition(0.5);
                 leftMotor.setPower(gamepad1.left_stick_y);
             }
             /*if (Math.abs(gamepad1.left_stick_y) > .01 && Math.abs(gamepad1.left_stick_y) < .5) {
@@ -100,68 +85,52 @@ public class HDriveTeleopPractice extends LinearOpMode {
                 rightMotor.setPower(-gamepad1.right_stick_y);
             }*/
             if (Math.abs(gamepad1.right_stick_y) > .01) {
-                lHDrive.setPosition(0.5);
-                rHDrive.setPosition(0.5);
                 rightMotor.setPower(-gamepad1.right_stick_y);
             }
             else {
                 rightMotor.setPower(0);
             }
             if (gamepad1.left_trigger > .05) {
+                centerMotor.setPower(-gamepad1.left_trigger);
                 rHDrive.setPosition(0.5 + dropHeight);
                 lHDrive.setPosition(0.5 - dropHeight);
-                centerMotor.setPower(-gamepad1.left_trigger);
             }
             else if (gamepad1.right_trigger > .05) {
+                centerMotor.setPower(gamepad1.right_trigger);
                 rHDrive.setPosition(0.5 + dropHeight);
                 lHDrive.setPosition(0.5 - dropHeight);
-                centerMotor.setPower(gamepad1.right_trigger);
             }
             else {
                 centerMotor.setPower(0);
-                //lHDrive.setPosition(0.5);
-                //rHDrive.setPosition(0.5);
+                lHDrive.setPosition(0.5);
+                rHDrive.setPosition(0.5);
 
             }
             if (gamepad2.right_trigger > .05) {
-                omnipulatorLt.setPower(-.7);
-                omnipulatorRt.setPower(.7);
+                omnipulatorLt.setPower(omnipulatorLtCurrentPos - .1);
+                omnipulatorRt.setPower(omnipulatorRtCurrentPos + .1);
             }
-            else if (gamepad2.left_trigger > .05) {
-                omnipulatorLt.setPower(.7);
-                omnipulatorRt.setPower(-.7);
-            }
-            else {
-                omnipulatorLt.setPower(0);
-                omnipulatorRt.setPower(0);
+            if (gamepad2.left_trigger > .05) {
+                omnipulatorLt.setPower(omnipulatorLtCurrentPos + .1);
+                omnipulatorRt.setPower(omnipulatorRtCurrentPos - .1);
             }
             if (gamepad2.y) {
-                omniPusher.setPosition(1);
-            }
-            else {
-                omniPusher.setPosition(0);
+                omniPusher.setPosition(pusherCurrentPos + .1);
             }
             if (gamepad2.dpad_up) {
                 omnipulatorLift.setPower(.7);
             }
-            else if (gamepad2.dpad_down && liftStop.getState()) {
+            if (gamepad2.dpad_down) {
                 omnipulatorLift.setPower(-.7);
             }
-            else {
-                omnipulatorLift.setPower(0);
-            }
             if (gamepad2.right_bumper) {
-                servoCollectorLt.setPosition(servoInitPositionLt + .5);
-                servoCollectorRt.setPosition(servoInitPositionRt - .5);
+                servoCollectorLt.setPosition(servoInitPositionLt + 1);
+                servoCollectorRt.setPosition(servoInitPositionRt - 1);
             }
-            else if (gamepad2.left_bumper) {
-                servoCollectorLt.setPosition(servoInitPositionLt - .5);
-                servoCollectorRt.setPosition(servoInitPositionRt + .5);
-            } else {
-                servoCollectorLt.setPosition(0.5);
-                servoCollectorRt.setPosition(0.5);
+            if (gamepad2.left_bumper) {
+                servoCollectorLt.setPosition(servoInitPositionLt - 1);
+                servoCollectorRt.setPosition(servoInitPositionRt + 1);
             }
-
             if (gamepad1.dpad_up) {
                 jewelSwiper.setPosition(1);
             }

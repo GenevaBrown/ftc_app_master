@@ -15,14 +15,14 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
     }*/
     /*void runAutoMode () {
         while (opModeIsActive()) {
-            Vuphoria();
-            if (Vuphoria() == 1) {
+            Vuforia();
+            if (Vuforia() == 1) {
                 telemetry.addData("Column: ", "Left");
             }
-            if (Vuphoria() == 2) {
+            if (Vuforia() == 2) {
                 telemetry.addData("Column ", "Right");
             }
-            if (Vuphoria() == 3) {
+            if (Vuforia() == 3) {
                 telemetry.addData("Column ", "Center");
             }
             else {
